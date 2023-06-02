@@ -45,9 +45,24 @@ class LoanController extends Controller
 
     public function edit(Loan $loan)
     {
-        return view('loans.edit', compact('loan'));
+        $users = User::all();
+        $books = Book::all();
+
+        $loan->find($loan);
+
+        return view('loans.edit', compact('loan', 'users', 'books'));
     }
 
+    public function update(Request $request, Loan $loan)
+    {
+        $validatedData = $request->validate([
+            'return_date' => 'required|date',
+        ]);
+
+        $loan->update($validatedData);
+
+        return redirect()->route('loans.index')->with('success', 'Livro atualizado com sucesso.');
+    }
 
     public function markLate(Loan $loan)
     {
@@ -63,5 +78,12 @@ class LoanController extends Controller
         $loan->save();
 
         return redirect()->route('loans.index')->with('success', 'Livro devolvido de empr[estimo.');
+    }
+
+    public function destroy(Loan $loan)
+    {
+        $loan->delete();
+
+        return redirect()->route('loans.index')->with('success', 'Livro deletado com sucesso.');
     }
 }
