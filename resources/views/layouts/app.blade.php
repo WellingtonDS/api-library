@@ -24,7 +24,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             Materialize.updateTextFields();
-            $(".button-collapse").sideNav();
+            $('.button-collapse').sideNav();
+            $('select').material_select();
         })
     </script>
 </body>
