@@ -42,7 +42,7 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
-        $book->find();
+        $book->find($book);
         return view('books.edit', compact('book'));
     }
 

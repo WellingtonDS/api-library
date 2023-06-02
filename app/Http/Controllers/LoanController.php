@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Loan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\FuncCall;
 
 class LoanController extends Controller
 {
@@ -41,6 +42,12 @@ class LoanController extends Controller
     {
         return redirect()->route('loans.index');
     }
+
+    public function edit(Loan $loan)
+    {
+        return view('loans.edit', compact('loan'));
+    }
+
 
     public function markLate(Loan $loan)
     {
