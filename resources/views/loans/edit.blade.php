@@ -31,6 +31,14 @@
                 <input type="date" name="return_date" id="return_date" class="form-control" value="{{ $loan->return_date }}" required>
             </div>
 
+            <div class="form-group">
+                <label for="status">Situação:</label>
+                <select name="status" id="status" class="form-control" required>
+                    <option value="Atrasado" {{ $loan->status == 'Atrasado' ? 'selected' : '' }}>Atrasado</option>
+                    <option value="Devolvido" {{ $loan->status == 'Devolvido' ? 'selected' : '' }}>Devolvido</option>
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-primary">Atualizar</button>
         </form>
     </div>

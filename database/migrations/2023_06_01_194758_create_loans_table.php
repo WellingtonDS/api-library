@@ -16,8 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('book_id');
             $table->date('return_date');
-            $table->boolean('is_late')->default(false);
-            $table->boolean('is_returned')->default(false);
+            $table->enum('status', ['Atrasado', 'Devolvido']);
             $table->timestamps();
         
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -57,27 +57,12 @@ class LoanController extends Controller
     {
         $validatedData = $request->validate([
             'return_date' => 'required|date',
+            'status' => 'required|in:Atrasado,Devolvido',
         ]);
 
         $loan->update($validatedData);
 
-        return redirect()->route('loans.index')->with('success', 'Livro atualizado com sucesso.');
-    }
-
-    public function markLate(Loan $loan)
-    {
-        $loan->is_late = true;
-        $loan->save();
-
-        return redirect()->route('loans.index')->with('success', 'Loan marked as late.');
-    }
-
-    public function markReturned(Loan $loan)
-    {
-        $loan->is_returned = true;
-        $loan->save();
-
-        return redirect()->route('loans.index')->with('success', 'Livro devolvido de empr[estimo.');
+        return redirect()->route('loans.index')->with('success', 'Emprestimo atualizado com sucesso.');
     }
 
     public function destroy(Loan $loan)
