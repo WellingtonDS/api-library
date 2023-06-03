@@ -20,11 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Rotas para CRUD de usuários
+// Rotas com resource para todas as telas.
 Route::resource('users', UserController::class);
-
-// Rotas para CRUD de livros
 Route::resource('books', BookController::class);
-
-// Rotas para CRUD de empréstimos
 Route::resource('loans', LoanController::class);

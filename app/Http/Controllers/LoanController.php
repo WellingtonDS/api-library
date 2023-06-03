@@ -2,57 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
+use App\Http\Request\LoanRequest\LoanStoreRequest;
 use App\Models\Loan;
-use App\Models\User;
+use App\Services\Loan\LoanService;
 use Illuminate\Http\Request;
-use PhpParser\Node\Expr\FuncCall;
 
 class LoanController extends Controller
 {
+
+    public $loanService;
+
+    public function __construct(LoanService $loanService)
+    {
+        $this->loanService = $loanService;
+    }
+
+    // function da tela de inicio de emprestimo
     public function index()
     {
-        $loans = Loan::all();
+        $loans = $this->loanService->index();
+
         return view('loans.index', compact('loans'));
     }
 
+    // Obter a lista de usuários e livros disponíveis para exibir nos formulários de emprestimos
     public function create()
     {
-        // Obtenha a lista de usuários e livros disponíveis para exibir nos formulários
-        $users = User::all();
-        $books = Book::where('status', 'Disponível')->get();
+        $users = $this->loanService->getUsers();
+        $books = $this->loanService->getBooks();
 
         return view('loans.create', compact('users', 'books'));
     }
 
-    public function store(Request $request)
+    // function para criar novo emprestimo com base nos livros e usuarios disponiveis
+    public function store(LoanStoreRequest $request)
     {
-        $validatedData = $request->validate([
-            'user_id' => 'required',
-            'book_id' => 'required',
-            'return_date' => 'required|date',
-        ]);
-
-        Loan::create($validatedData);
+        $validatedData = $request->validated();
+        $loan = $this->loanService->store($validatedData);
 
         return redirect()->route('loans.index')->with('success', 'Emprestimo criado com sucesso.');
     }
 
-    public function show(Loan $loan)
-    {
-        return redirect()->route('loans.index');
-    }
-
+    // functio da tela de edição
     public function edit(Loan $loan)
     {
-        $users = User::all();
-        $books = Book::all();
-
-        $loan->find($loan);
+        $users = $this->loanService->getUsers();
+        $books = $this->loanService->getBooksEdit();
 
         return view('loans.edit', compact('loan', 'users', 'books'));
     }
 
+    // function para alterar status de emprestimo
     public function update(Request $request, Loan $loan)
     {
         $validatedData = $request->validate([
@@ -65,9 +65,10 @@ class LoanController extends Controller
         return redirect()->route('loans.index')->with('success', 'Emprestimo atualizado com sucesso.');
     }
 
-    public function destroy(Loan $loan)
+    // function para deletar emprestimo
+    public function destroy($loan)
     {
-        $loan->delete();
+        $this->loanService->delete($loan);
 
         return redirect()->route('loans.index')->with('success', 'Livro deletado com sucesso.');
     }
