@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Lista de Empréstimos</h1>
+        <h1 class="blue-text">Lista de Empréstimos</h1>
 
         @if(session('success'))
             <div class="alert alert-success">
@@ -10,33 +10,33 @@
             </div>
         @endif
 
-        <a href="{{ route('loans.create') }}" class="btn btn-primary mb-3">Adicionar Empréstimo</a>
+        <a href="{{ route('loans.create') }}" class="btn teal lighten-3 mb-3">Adicionar Empréstimo</a>
 
-        <table class="table">
+        <table class="table highlight responsive-table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Usuário</th>
-                    <th>Livro</th>
-                    <th>Data de Devolução</th>
-                    <th>Situação</th>
-                    <th>Ações</th>
+                    <th class="teal-text">ID</th>
+                    <th class="teal-text">Usuário</th>
+                    <th class="teal-text">Livro</th>
+                    <th class="teal-text">Data de Devolução</th>
+                    <th class="teal-text">Situação</th>
+                    <th class="teal-text">Ações</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($loans as $loan)
                     <tr>
-                        <td>{{ $loan->id }}</td>
-                        <td>{{ $loan->user->name }}</td>
-                        <td>{{ $loan->book->name }}</td>
-                        <td>{{ $loan->return_date }}</td>
-                        <td>{{ $loan->status }}</td>
+                        <td class="grey-text">{{ $loan->id }}</td>
+                        <td class="grey-text">{{ $loan->user->name }}</td>
+                        <td class="grey-text">{{ $loan->book->name }}</td>
+                        <td class="grey-text">{{ $loan->return_date }}</td>
+                        <td class="grey-text">{{ $loan->status }}</td>
                         <td>
-                            <a href="{{ route('loans.edit', $loan) }}" class="btn btn-sm btn-primary">Editar</a>
+                            <a href="{{ route('loans.edit', $loan) }}" class="btn btn-sm teal lighten-3">Editar</a>
                             <form action="{{ route('loans.destroy', $loan) }}" method="POST" style="display: inline-block">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza de que deseja excluir este empréstimo?')">Excluir</button>
+                                <button type="submit" class="btn btn-sm red" onclick="return confirm('Tem certeza de que deseja excluir este empréstimo?')">Excluir</button>
                             </form>
                         </td>
                     </tr>
